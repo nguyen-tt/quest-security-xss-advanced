@@ -96,7 +96,7 @@
             userName = userParam;
         }
 
-        document.getElementById("welcome-text").innerHTML = "<h1>How do you do, " + userName + "?</h1>";
+        document.getElementById("welcome-text").textContent = "How do you do, " + userName + "?";
 
         //  XSS vulnerability #2
 
@@ -106,7 +106,7 @@
         input.addEventListener("input", updateValue);
 
         function updateValue(e) {
-            log.innerHTML = e.target.value;
+            log.textContent = e.target.value;
         }
 
         //  XSS vulnerability #3
@@ -118,12 +118,12 @@
         showButton.addEventListener("click", showHTML);
 
         function showHTML() {
-            htmlOutput.innerHTML = htmlInput.value;
-        }
+        htmlOutput.innerHTML = DOMPurify.sanitize(htmlInput.value);
+      }
 
         //  XSS vulnerability #4
 
-        const redir = params.get("goto");
+        const redir = encodeURIComponent(params.get("goto"));
         if (redir !== null && redir !== "null") {
             document.location = redir;
         }
